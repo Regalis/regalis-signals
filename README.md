@@ -2,7 +2,7 @@
 
 Minimalistic implementation of signals and slots mechanism written in C++11 using some of new features including variadic templates, lambdas and smart pointers. **Note**: current version is not thread-safe.
 
-# What it is and when to use it?
+# What is it and when to use it?
 
 Signals and slots mechanism is powerfull and easy to use alternative to the callback technique. Regalis Signals can be used when you need to notify some objects or functions when particular event ocurs. Let's see an example below:
 
@@ -69,9 +69,9 @@ Constructor **CounterMonitor(Counter\*)** whill be used to connect Counter's sig
 
 ```C++
 CounterMonitor::CounterMonitor(Counter *counter) {
-	regalis::connect(counter->incremented, this, CounterMonitor::incremented);
-	regalis::connect(counter->decremented, this, CounterMonitor::decremented);
-	regalis::connect(counter->reseted, this, CounterMonitor::reseted);
+	regalis::connect(counter->incremented, this, &CounterMonitor::incremented);
+	regalis::connect(counter->decremented, this, &CounterMonitor::decremented);
+	regalis::connect(counter->reseted, this, &CounterMonitor::reseted);
 }
 ```
 
@@ -115,7 +115,7 @@ Before you start using this library, make sure you ran:
 # Todo
 
 * more examples
-* explenation of internals
+* explanation of internals
 * more tests
 * make it thread-safe
 
