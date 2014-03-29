@@ -215,27 +215,6 @@ class Slot {
 	friend class Signal<Args...>;
 };
 
-template <class... Args>
-class DisposableSlot : public Slot<Args...> {
-	public:
-		template <class T>
-		DisposableSlot(T &t, void(T:: *f)(Args...)) : Slot<Args...>::Slot(t, f) {}
-		DisposableSlot(std::function<void(Args...)> f) : Slot<Args...>::Slot(f) {}
-		// Prevent from copying
-		DisposableSlot(const DisposableSlot<Args...>&) = delete;
-		DisposableSlot<Args...> &operator=(const DisposableSlot<Args...>&) = delete;
-
-		~DisposableSlot() {
-			Slot<Args...>::disconnect();
-		}
-	protected:
-		virtual void operator()(Args... args) {
-			Slot<Args...>::operator()(args...);
-			Slot<Args...>::makeInactive();
-		}
-};
-
-
 /** Connect specified Signal with class member of type T
  *
  * Function creates a Slot which store pointer to member function and
