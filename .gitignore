@@ -1,0 +1,8 @@
+*.o
+*.swp
+*.swo
+doc/
+Doxyfile
+unit-test
+a.out
+main
