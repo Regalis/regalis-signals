@@ -69,9 +69,9 @@ Constructor **CounterMonitor(Counter\*)** whill be used to connect Counter's sig
 
 ```C++
 CounterMonitor::CounterMonitor(Counter *counter) {
-	regalis::connect(counter->incremented, this, &CounterMonitor::incremented);
-	regalis::connect(counter->decremented, this, &CounterMonitor::decremented);
-	regalis::connect(counter->reseted, this, &CounterMonitor::reseted);
+	regalis::connect(counter->incremented, *this, &CounterMonitor::incremented);
+	regalis::connect(counter->decremented, *this, &CounterMonitor::decremented);
+	regalis::connect(counter->reseted, *this, &CounterMonitor::reseted);
 }
 ```
 
@@ -84,17 +84,16 @@ Now let's write *main()* function and try to use it:
 #include "CounterMonitor.hpp"
 
 void local_function(int new_counter_value) {
-	std::count << "Counter value changed: " << new_counter_value << std::endl;
+	std::cout << "Counter value changed: " << new_counter_value << std::endl;
 }
 
 int main() {
 	Counter counter;
 	CounterMonitor monitor(&counter);
 	
-	/** We can connect all of 3 signals to one function */
+	/** We can connect 2 signals to one function */
 	regalis::connect(counter.incremented, local_function);
 	regalis::connect(counter.decremented, local_function);
-	regalis::connect(counter.reseted, local_function);
 
 	counter.inc();
 	counter.inc();
